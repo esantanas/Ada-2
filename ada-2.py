@@ -67,3 +67,63 @@ def min_max_sum_partition_dp(A, max_n):
 A = [7, 2, 5, 10, 8]
 max_n = 3
 print(min_max_sum_partition_dp(A, max_n))  # Resultado esperado: depende de max_n
+
+def min_max_sum_partition_divide_and_conquer(A, n):
+   
+    # Caso base: si solo hay un subgrupo, el máximo es la suma de todos los elementos
+    if n == 1:
+        return sum(A)
+    
+    # Caso base: si cada elemento es un subgrupo, el máximo es el valor máximo en A
+    if n >= len(A):
+        return max(A)
+
+    # Inicializamos las variables de búsqueda binaria
+    left, right = max(A), sum(A)
+    result = right
+
+    # Búsqueda binaria sobre posibles valores de la suma máxima de un subgrupo
+    while left <= right:
+        mid = (left + right) // 2
+
+        # Intentamos dividir A en subgrupos de suma máxima mid
+        if can_partition(A, n, mid):
+            result = mid   # Guardamos el mejor resultado
+            right = mid - 1
+        else:
+            left = mid + 1
+
+    return result
+
+
+def can_partition(A, n, max_sum):
+    """
+    Determina si es posible dividir A en `n` subgrupos sin que ninguna suma
+    supere `max_sum`.
+    
+    :param A: List[int] - el arreglo de enteros a dividir
+    :param n: int - el número máximo de subgrupos
+    :param max_sum: int - el valor máximo permitido para la suma de cualquier subgrupo
+    :return: bool - True si es posible, False de lo contrario
+    """
+    current_sum = 0
+    subgroups = 1  # Iniciamos con un subgrupo
+
+    for num in A:
+        # Si agregar el número actual excede max_sum, se crea un nuevo subgrupo
+        if current_sum + num > max_sum:
+            subgroups += 1
+            current_sum = num
+            # Si excede el número permitido de subgrupos, devolvemos False
+            if subgroups > n:
+                return False
+        else:
+            current_sum += num
+
+    return True
+
+# Ejemplo de uso
+A = [7, 2, 5, 10, 8]
+n = 3
+print(min_max_sum_partition_divide_and_conquer(A, n))  # Resultado esperado: 18
+
