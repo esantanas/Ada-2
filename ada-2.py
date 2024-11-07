@@ -35,3 +35,4 @@ def min_max_sum_partition(A, max_n):
 A = [7, 2, 5, 10, 8]
 max_n = 3
 print(min_max_sum_partition(A, max_n))  # Resultado esperado: depende de max_n
+print("sexoooo")
