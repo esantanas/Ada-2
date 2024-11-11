@@ -1,3 +1,5 @@
+#Desarrollado por José Barrera y Eduardo Santana.
+
 from itertools import combinations
 import sys
 import time
